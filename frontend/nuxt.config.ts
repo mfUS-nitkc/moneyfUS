@@ -2,9 +2,12 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
+
   alias: {
     "~": "./src",
     "public": "./public"
   },
-  srcDir: "src/"
+
+  srcDir: "src/",
+  modules: ["@nuxtjs/storybook"]
 })
