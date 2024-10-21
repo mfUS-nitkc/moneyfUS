@@ -7,3 +7,4 @@ services:
       - ./frontend/:/app
     ports:
       - 3000:3000
+      - 6006:6006
