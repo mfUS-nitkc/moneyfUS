@@ -16,6 +16,8 @@ jobs:
         with:
           node-verion: 22.9.0
       - run: corepack enable yarn
+      - run: cd frontend
+      - run: yarn install --frozen-lockfile
       - run: yarn build
       - name: Publish to Cloudflare Pages
         id: cloudflare_pages_deploy
