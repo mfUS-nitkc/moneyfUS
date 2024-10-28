@@ -17,6 +17,7 @@ jobs:
         id: cloudflare_pages_deploy
         uses: cloudflare/wrangler-action@v3
         with:
+          workingDirectory: "frontend"
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy ./dist --project-name=moneyfus
