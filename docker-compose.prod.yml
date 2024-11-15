@@ -2,12 +2,11 @@ services:
   frontend:
     build:
       context: frontend
-      target: dev
+      target: deploy
     volumes:
       - ./frontend/:/app
     ports:
-      - 3000:3000
-      - 6006:6006
+      - 443:3000
   db:
     image: mysql:latest
     restart: always
@@ -26,9 +25,11 @@ services:
   backend:
     build:
       context: backend
-      target: dev
+      target: deploy
     volumes:
       - ./backend/:/app
+    expose:
+      - 8000
     depends_on:
       db:
         condition: service_healthy
