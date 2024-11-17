@@ -29,6 +29,8 @@ services:
       target: dev
     volumes:
       - ./backend/:/app
+    ports:
+      - 8000
     depends_on:
       db:
         condition: service_healthy
