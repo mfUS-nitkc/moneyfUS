@@ -21,7 +21,7 @@ COPY --from=stg /app .
 ENV PYTHONUSERBASE=/app/__pypackages__
 RUN pip install --user -r requirements.txt
 
-FROM gcr.io/distroless/python3-debian12
+FROM gcr.io/distroless/python3-debian12 AS deploy
 
 WORKDIR /app
 COPY --from=build /app .
