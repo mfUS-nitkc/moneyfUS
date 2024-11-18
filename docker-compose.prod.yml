@@ -6,7 +6,7 @@ services:
     volumes:
       - ./frontend/:/app
     ports:
-      - 443:3000
+      - 3000:3000
   db:
     image: mysql:latest
     restart: always
