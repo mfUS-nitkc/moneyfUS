@@ -11,6 +11,7 @@ services:
     image: mysql:latest
     restart: always
     volumes:
+      - ./db-data/prod:/var/lib/mysql
     environment:
       - MYSQL_ROOT_HOST=127.*.*.*
     env_file:
