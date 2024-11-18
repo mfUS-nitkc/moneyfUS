@@ -15,7 +15,8 @@ export default defineNuxtConfig({
     nuxt.hooks.hook('vite:extendConfig', (config) => {
       config.plugins.push(vuetify({autoImport: true}))
     })
-  },"@nuxtjs/storybook"],
+  },
+  () => { process.env.NODE_ENV === 'DEVELOP' ? "@nuxtjs/storybook" : ''}],
   build: {
     transpile: ['vuetify'],
   },
