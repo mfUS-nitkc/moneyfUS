@@ -33,12 +33,12 @@ WORKDIR /app
 
 COPY --from=stg /app .
 
-RUN corepack enable yarn && corepack prepare yarn@4
-RUN corepack yarn workspaces focus --production
-
 ENV NODE_ENV=production
 ENV HOST=0.0.0.0
-ENV PORT=443
+ENV PORT=3000
+
+RUN corepack enable yarn && corepack prepare yarn@4
+RUN corepack yarn workspaces focus --production
 
 RUN corepack yarn build
 

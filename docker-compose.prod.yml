@@ -2,18 +2,19 @@ services:
   frontend:
     build:
       context: frontend
-      target: dev
+      target: deploy
     volumes:
       - ./frontend/:/app
       - /app/node_modules
     ports:
       - 3000:3000
-      - 6006:6006
   db:
     image: mysql:latest
     restart: always
     volumes:
-      - ./db-data/dev:/var/lib/mysql
+      - ./db-data/prod:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_HOST=127.*.*.*
     env_file:
       - ./backend/.env
     expose:
@@ -27,11 +28,11 @@ services:
   backend:
     build:
       context: backend
-      target: dev
+      target: deploy
     volumes:
       - ./backend/:/app
-    ports:
-      - 8000:8000
+    expose:
+      - 8000
     depends_on:
       db:
         condition: service_healthy
