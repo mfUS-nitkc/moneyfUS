@@ -1,36 +1,39 @@
-FROM python:3.11.0-bullseye AS stg
+FROM debian:12-slim AS stg
 
 ENV PYTHONUNBUFFERED 1
 WORKDIR /app
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY . .
+RUN apt-get update && \
+    apt-get install --no-install-suggests --no-install-recommends --yes python3-venv gcc libpython3-dev && \
+    python3 -m venv /venv && \
+    /venv/bin/pip install --upgrade pip setuptools wheel
 
 FROM stg AS dev
 
-CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000", "--settings=config.settings.develop"]
+COPY requirements.txt /requirements.txt
+RUN /venv/bin/pip install --disable-pip-version-check -r /requirements.txt
 
-FROM python:3.11.0-bullseye AS build
+COPY . /app
 
-ENV PYTHONUNBUFFERED 1
+ENTRYPOINT [ "/app/docker-entrypoint.sh", "--settings=config.settings.develop" ]
+
+FROM stg AS build-venv
+
+COPY requirements.txt /requirements.txt
+RUN /venv/bin/pip install --disable-pip-version-check -r /requirements.txt
+
+FROM busybox:1.37.0-glibc AS busybox
+
+FROM gcr.io/distroless/python3-debian12:nonroot AS deploy
+
 WORKDIR /app
 
-COPY --from=stg /app .
+COPY --from=busybox /bin/sh /bin/sh
 
-RUN pip install -r requirements.txt
+COPY --from=build-venv /venv /venv
+COPY . /app
 
-FROM gcr.io/distroless/python3-debian12 AS deploy
-
-WORKDIR /app
-
-COPY --from=build /usr/local/lib/python3.11 /usr/local/lib/python3.11
-COPY --from=build /usr/local/bin /usr/local/bin
-COPY --from=build /app .
-
-ENV PYTHONPATH=/usr/local/lib/python3.11/site-packages
 EXPOSE 8000
 
 ENV PYTHONUNBUFFERED 1
-CMD ["manage.py", "runserver", "0.0.0.0:8000", "--settings=config.settings.deploy"]
-
+ENTRYPOINT [ "/bin/sh", "/app/docker-entrypoint.sh", "--settings=config.settings.deploy" ]
