@@ -85,7 +85,8 @@ DATABASES = {
         'HOST': 'db',
         'PORT': '3306',
         'USER': os.environ['MYSQL_USER'],
-        'PASSWORD': os.environ['MYSQL_PASSWORD']
+        'PASSWORD': os.environ['MYSQL_PASSWORD'],
+        'ATOMIC_REQUESTS': True
     }
 }
 
