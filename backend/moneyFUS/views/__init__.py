@@ -1,1 +1,1 @@
-from .data import data
+from .user import register
