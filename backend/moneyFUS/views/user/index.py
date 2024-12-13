@@ -38,3 +38,8 @@ class UserView(APIView):
             {"success": False, "reason": "Invalid credentials"},
             status=status.HTTP_400_BAD_REQUEST,
         )
+
+    def delete(self, request):
+        user = request.user
+        user.delete()
+        return Response({"success": True}, status=status.HTTP_204_NO_CONTENT)
