@@ -8,6 +8,7 @@ from ...models.user.user import UserManager
 
 
 class RegisterView(APIView):
+    authentication_classes = []
     permission_classes = [AllowAny]
 
     def post(self, request):

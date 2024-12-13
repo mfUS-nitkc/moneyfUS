@@ -7,6 +7,7 @@ from rest_framework.authtoken.models import Token
 
 
 class LoginView(APIView):
+    authentication_classes = []
     permission_classes = [AllowAny]
 
     def post(self, request):
@@ -16,7 +17,7 @@ class LoginView(APIView):
         if user:
             token, created = Token.objects.get_or_create(user=user)
             res = Response({"success":True, "user_id": user.user_id, "username": user.username, "email": user.email}, status=status.HTTP_200_OK)
-            res.set_cookie("session", token.key, httponly=True, secure=True)
+            res.set_cookie("token", token.key, httponly=True, secure=True)
             return res
         return Response(
             {"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED
