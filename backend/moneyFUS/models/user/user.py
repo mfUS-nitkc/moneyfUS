@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.core.exceptions import ValidationError
 from django.db import models
 import hashlib
 import uuid
@@ -44,14 +45,18 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = "user_id"
     REQUIRED_FIELDS = ["username"]
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=["email", "is_active"],
-                condition=models.Q(is_active=True),
-                name="unique_active_email",
-            )
-        ]
+    def clean(self):
+        if self.is_active:
+            if (
+                User.objects.filter(email=self.email, is_active=True)
+                .exclude(pk=self.pk)
+                .exists()
+            ):
+                raise ValidationError("既に登録されているユーザーです。")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.email
