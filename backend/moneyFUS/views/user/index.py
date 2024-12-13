@@ -41,5 +41,6 @@ class UserView(APIView):
 
     def delete(self, request):
         user = request.user
-        user.delete()
+        user.is_active = False
+        user.save()
         return Response({"success": True}, status=status.HTTP_204_NO_CONTENT)
