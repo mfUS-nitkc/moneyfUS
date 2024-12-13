@@ -1,13 +1,21 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from ...models.user.user import UserManager
+from ...backends.user.cookie_authentication import CookieTokenBackend
 
 
 class UserView(APIView):
-    authentication_classes = []
-    permission_classes = [AllowAny]
+    def get_authenticators(self):
+        if self.request.method in ["DELETE", "PATCH"]:
+            return [CookieTokenBackend()]
+        return []
+
+    def get_permissions(self):
+        if self.request.method in ["DELETE", "PATCH"]:
+            return [IsAuthenticated()]
+        return [AllowAny()]
 
     def post(self, request):
         email = request.data.get("email")
