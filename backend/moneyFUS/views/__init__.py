@@ -1,1 +1,1 @@
-from .user import login, register
+from .user import index as index, login as login
