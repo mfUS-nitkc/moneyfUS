@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 import hashlib
+import uuid
 
 
 class UserManager(BaseUserManager):
@@ -11,7 +12,10 @@ class UserManager(BaseUserManager):
         user = User(email=email, username=username, **fields)
         user.save(using=self._db)
         if password:
-            userauth = UserAuth(user=user, password=self.make_password(email=email, raw_password=password))
+            userauth = UserAuth(
+                user=user,
+                password=self.make_password(email=email, raw_password=password),
+            )
             userauth.save(using=self._db)
         return user
 
@@ -19,14 +23,15 @@ class UserManager(BaseUserManager):
         fields.setdefault("is_staff", True)
         fields.setdefault("is_superuser", True)
         return self.create_user(email, username, password, fields=fields)
-    
+
     def make_password(self, email, raw_password):
-        msg = email+raw_password
-        return hashlib.sha256(msg.encode('utf-8')).hexdigest()
+        msg = email + raw_password
+        return hashlib.sha256(msg.encode("utf-8")).hexdigest()
+
 
 class User(AbstractBaseUser):
-    user_id = models.AutoField(primary_key=True, )
-    email = models.EmailField(unique=True,)
+    user_id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
+    email = models.EmailField()
     username = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -36,13 +41,22 @@ class User(AbstractBaseUser):
 
     objects = UserManager()
 
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ['username']
+    USERNAME_FIELD = "user_id"
+    REQUIRED_FIELDS = ["username"]
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["email", "is_active"],
+                condition=models.Q(is_active=True),
+                name="unique_active_email",
+            )
+        ]
 
     def __str__(self):
         return self.email
 
+
 class UserAuth(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     password = models.CharField(max_length=255, blank=True)
-    
