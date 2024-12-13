@@ -1,5 +1,4 @@
 from django.contrib.auth.backends import BaseBackend
-from django.contrib.auth.hashers import check_password
 from ...models.user.user import User, UserAuth
 import hashlib
 
@@ -7,9 +6,11 @@ import hashlib
 class PasswordUserBackend(BaseBackend):
     def authenticate(self, request, email=None, password=None, **kwargs):
         try:
-            user = User.objects.get(email=email)
-            auth = UserAuth.objects.get(user=user)
-            user_password = hashlib.sha256((email+password).encode("utf-8")).hexdigest()
+            user = User.objects.filter(email=email, is_active=True).first()
+            auth = UserAuth.objects.filter(user=user).first()
+            user_password = hashlib.sha256(
+                (email + password).encode("utf-8")
+            ).hexdigest()
             print(auth.password)
             print(user_password)
             if auth.password == user_password:
