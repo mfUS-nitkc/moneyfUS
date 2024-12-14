@@ -1,3 +1,4 @@
+from django.forms import ValidationError
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -43,4 +44,7 @@ class UserView(APIView):
         user = request.user
         user.is_active = False
         user.save()
-        return Response({"success": True}, status=status.HTTP_204_NO_CONTENT)
+        res = Response({"success": True}, status=status.HTTP_204_NO_CONTENT)
+        res.delete_cookie("token")
+        return res
+
