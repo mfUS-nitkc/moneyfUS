@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.core.exceptions import ValidationError
 from django.db import models
-import hashlib
+from ...utils.hash_password import hash_password
 import uuid
 
 
@@ -13,21 +13,13 @@ class UserManager(BaseUserManager):
         user = User(email=email, username=username, **fields)
         user.save(using=self._db)
         if password:
-            userauth = UserAuth(
-                user=user,
-                password=self.make_password(email=email, raw_password=password),
-            )
-            userauth.save(using=self._db)
+            user.set_password(plain_password=password)
         return user
 
     def create_superuser(self, email, username, password=None, **fields):
         fields.setdefault("is_staff", True)
         fields.setdefault("is_superuser", True)
         return self.create_user(email, username, password, fields=fields)
-
-    def make_password(self, email, raw_password):
-        msg = email + raw_password
-        return hashlib.sha256(msg.encode("utf-8")).hexdigest()
 
 
 class User(AbstractBaseUser):
@@ -58,10 +50,50 @@ class User(AbstractBaseUser):
         self.clean()
         super().save(*args, **kwargs)
 
+    def set_password(self, plain_password):
+        if not plain_password:
+            raise ValueError("plain_passwordが不足しています。")
+
+        if not hasattr(self, "auth"):
+            self.auth = UserAuth.objects.create(user=self)
+
+        self.auth.set_password(plain_password)
+
+    def check_password(self, plain_password):
+        if not self.password:
+            return False
+        return self.auth.check_password(plain_password)
+
     def __str__(self):
         return self.email
 
 
+class UserAuthManager(models.Manager):
+    def create_auth(self, user, plain_password):
+        if not user or not plain_password:
+            raise ValueError("User, plain_passwordの両方かどちらかが不足しています。")
+
+        hashed_password = hash_password(user.email, plain_password)
+
+        return self.create(user=user, password=hashed_password)
+
+
 class UserAuth(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="auth")
     password = models.CharField(max_length=255, blank=True)
+
+    objects = UserAuthManager()
+
+    def __str__(self):
+        return f"Auth for {self.user.email}"
+
+    def set_password(self, plain_password: str):
+        if not plain_password:
+            raise ValueError("plain_passwordが不足しています。")
+        self.password = hash_password(self.user.email, plain_password)
+        self.save()
+
+    def check_password(self, plain_password: str):
+        if not plain_password:
+            raise ValueError("plain_passwordが不足しています。")
+        return self.password == hash_password(self.user.email, plain_password)

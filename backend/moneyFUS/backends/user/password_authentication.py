@@ -1,16 +1,14 @@
 from django.contrib.auth.backends import BaseBackend
 from ...models.user.user import User, UserAuth
-import hashlib
+from ...utils.hash_password import hash_password
 
 
 class PasswordUserBackend(BaseBackend):
     def authenticate(self, request, email=None, password=None, **kwargs):
         try:
-            user = User.objects.filter(email=email, is_active=True).first()
-            auth = UserAuth.objects.filter(user=user).first()
-            user_password = hashlib.sha256(
-                (email + password).encode("utf-8")
-            ).hexdigest()
+            user = User.objects.get(email=email, is_active=True)
+            auth = user.auth
+            user_password = hash_password(email, password)
             print(auth.password)
             print(user_password)
             if auth.password == user_password:
