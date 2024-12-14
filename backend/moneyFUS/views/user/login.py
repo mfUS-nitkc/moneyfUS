@@ -16,7 +16,15 @@ class LoginView(APIView):
         user = authenticate(request, email=email, password=password)
         if user:
             token, created = Token.objects.get_or_create(user=user)
-            res = Response({"success":True, "user_id": user.user_id, "username": user.username, "email": user.email}, status=status.HTTP_200_OK)
+            res = Response(
+                {
+                    "success": True,
+                    "user_id": user.user_id,
+                    "username": user.username,
+                    "email": user.email,
+                },
+                status=status.HTTP_200_OK,
+            )
             res.set_cookie("token", token.key, httponly=True, secure=True)
             return res
         return Response(

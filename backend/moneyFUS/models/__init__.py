@@ -1,1 +1,1 @@
-from .user.user import User, UserAuth
+from .user.user import User as User, UserAuth as UserAuth
