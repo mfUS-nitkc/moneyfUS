@@ -5,13 +5,16 @@ services:
       target: deploy
     volumes:
       - ./frontend/:/app
+      - /app/node_modules
     ports:
-      - 443:3000
+      - 3000:3000
   db:
     image: mysql:latest
     restart: always
     volumes:
-      - ./db-data:/var/lib/mysql
+      - ./db-data/prod:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_HOST=127.*.*.*
     env_file:
       - ./backend/.env
     expose:

@@ -5,6 +5,7 @@ services:
       target: dev
     volumes:
       - ./frontend/:/app
+      - /app/node_modules
     ports:
       - 3000:3000
       - 6006:6006
@@ -12,7 +13,7 @@ services:
     image: mysql:latest
     restart: always
     volumes:
-      - ./db-data:/var/lib/mysql
+      - ./db-data/dev:/var/lib/mysql
     env_file:
       - ./backend/.env
     expose:
