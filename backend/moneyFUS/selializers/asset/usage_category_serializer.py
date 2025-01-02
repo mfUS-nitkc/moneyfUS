@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ...models import UsageCategory
+from ...models.asset.usage_category import UsageCategory
 
 
 class UsageCategorySerializer(serializers.ModelSerializer):
