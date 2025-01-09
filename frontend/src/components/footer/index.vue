@@ -1,0 +1,53 @@
+<template>
+  <v-footer app class="pa-0">
+
+    <v-container class="pa-1">
+      <v-row justify="center" style="flex-wrap:nowrap;" class="ma-0">
+        <v-col class="pa-2" v-for="menu in menus" :key="menu.name" style="aspect-ratio: 1; display: flex; align-items: center; " cols="3">
+          <FooterButton :icon="menu.icon" :to="menu.link" :isSelected="isSelectedBtn(menu.link)">
+            {{ menu.name }}
+          </FooterButton>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-footer>
+</template>
+
+<script setup lang="ts">
+const route = useRoute()
+const currentPath = route.fullPath
+
+const isSelectedBtn = (linkPath: string) => {
+  return linkPath === currentPath
+}
+
+// FIXME: 実際のデータへ変更する
+const menus = [
+  {
+    name: 'Home',
+    icon: 'mdi-home-outline',
+    link: '/',
+  },{
+    name: '家計簿',
+    icon: 'mdi-notebook-edit-outline',
+    link: '/kake',
+  },{
+    name: '収支入力',
+    icon: 'mdi-piggy-bank-outline',
+    link: '/shu',
+  },{
+    name: '投稿',
+    icon: 'mdi-account-group-outline',
+    link: '/post',
+  },
+]
+</script>
+
+<style>
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+</style>
