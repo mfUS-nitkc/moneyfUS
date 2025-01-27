@@ -22,9 +22,19 @@ class UserView(APIView):
         email = request.data.get("email")
         password = request.data.get("password")
         username = request.data.get("username")
-        created_user = UserManager().create_user(
-            email=email, password=password, username=username
-        )
+        if type(email) != str or type(password) != str or type(username) != str:
+            return Response({"success": False, "reason": "Invalid Type or Parameter"},
+                            status=status.HTTP_400_BAD_REQUEST)
+        try:
+            created_user = UserManager().create_user(
+                email=email, password=password, username=username
+            )
+        except ValueError as e:
+            return Response({"success": False, "reason": "Invalid Type or Parameter", "detail": f"{e}"},
+                            status=status.HTTP_400_BAD_REQUEST)
+        except ValidationError as e:
+            return Response({"success": False, "reason": "Duplicated User", "detail": f"{e}"},
+                            status=status.HTTP_400_BAD_REQUEST)
         if created_user:
             return Response(
                 {
@@ -41,9 +51,14 @@ class UserView(APIView):
         )
 
     def delete(self, request):
-        user = request.user
-        user.is_active = False
-        user.save()
+        if request.user is None:
+            return Response({"success": False}, status=status.HTTP_401_UNAUTHORIZED)
+        try:
+            user = request.user
+            user.is_active = False
+            user.save()
+        except:
+            return Response({"success": False}, status=status.HTTP_401_UNAUTHORIZED)
         res = Response({"success": True}, status=status.HTTP_204_NO_CONTENT)
         res.delete_cookie("token")
         return res

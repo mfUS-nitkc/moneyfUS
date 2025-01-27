@@ -12,8 +12,9 @@ class UserManager(BaseUserManager):
         email = self.normalize_email(email)
         user = User(email=email, username=username, **fields)
         user.save(using=self._db)
-        if password:
-            user.set_password(plain_password=password)
+        if not password:
+            raise ValueError("Password field must be set")
+        user.set_password(plain_password=password)
         return user
 
     def create_superuser(self, email, username, password=None, **fields):
