@@ -25,6 +25,11 @@ export default defineNuxtConfig({
       template: {
         transformAssetUrls
       }
+    },
+    server: {
+      watch: {
+        usePalling: true
+      }
     }
   }
 })
