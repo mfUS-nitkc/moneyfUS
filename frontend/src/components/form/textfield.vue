@@ -1,33 +1,33 @@
 <template>
+  <div>
+    <div>{{ label }}</div>
     <v-text-field
-      :label="label"
-      v-model="inputValue"
+    :label="label"
+    v-model="internalValue"
+    :rules="rules"
+    outlined
     ></v-text-field>
-  </template>
-  
-  <script>
-  export default {
-    props: {
-      label: {
-        type: String,
-        required: true,
-      },
-      modelValue: {
-        type: String,
-        required: false,
-        default: "",
-      },
-    },
-    computed: {
-      inputValue: {
-        get() {
-          return this.modelValue;
-        },
-        set(value) {
-          this.$emit("update:modelValue", value);
-        },
-      },
-    },
-  };
-  </script>
-  
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { computed, defineProps, defineEmits } from 'vue'
+
+const props = defineProps<{
+  label?: string
+  value: string | number
+  rules?: Array<(value: any) => boolean | string>
+}>()
+
+const emit = defineEmits<{
+  (e: 'update:value', value: string | number): void
+}>()
+
+const internalValue = computed({
+  get: () => props.value,
+  set: (value: string | number) => emit('update:value', value)
+})
+</script>
+
+<style scoped>
+</style>
