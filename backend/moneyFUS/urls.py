@@ -11,4 +11,5 @@ urlpatterns = [
     path("asset", AssetView.as_view()),
     path("asset/category", UsageCategoryView.as_view()),
     path("lend", LendView.as_view()),
+    path("lend/checkout/<str:lend_id>", LendCheckoutView.as_view())
 ]
