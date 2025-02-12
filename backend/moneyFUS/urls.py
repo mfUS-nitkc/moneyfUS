@@ -10,6 +10,7 @@ from .views.loan.borrowed import BorrowedView
 from .views.notify.index import NotifyView
 from .views.notify.read import NotifyReadView
 from .views.loan.remind import LoanRemindView
+from .views.friend.index import FriendView
 
 urlpatterns = [
     path("user/login", LoginView.as_view()),
@@ -22,5 +23,6 @@ urlpatterns = [
     path("loan/lend", LendView.as_view()),
     path("loan/borrowed", BorrowedView.as_view()),
     path("loan/checkout/<str:loan_id>", LoanCheckoutView.as_view()),
-    path("loan/remind/<str:loan_id>", LoanRemindView.as_view())
+    path("loan/remind/<str:loan_id>", LoanRemindView.as_view()),
+    path("friend", FriendView.as_view()),
 ]
