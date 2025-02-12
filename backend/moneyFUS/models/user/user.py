@@ -66,6 +66,13 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return self.email
+    
+    def encode(self):
+        return {
+            'user_id': self.user_id,
+            'username': self.username,
+            'email': self.email
+        }
 
 
 class UserAuthManager(models.Manager):
