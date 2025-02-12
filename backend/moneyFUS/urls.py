@@ -7,11 +7,15 @@ from .views.asset.category import UsageCategoryView
 from .views.loan.lend import LendView
 from .views.loan.index import LoanCheckoutView
 from .views.loan.borrowed import BorrowedView
+from .views.notify.index import NotifyView
+from .views.notify.read import NotifyReadView
 
 urlpatterns = [
     path("user/login", LoginView.as_view()),
     path("user", UserView.as_view()),
     path("user/self", UserSelfView.as_view()),
+    path("notify", NotifyView.as_view()),
+    path("notify/<str:notify_id>", NotifyReadView.as_view()),
     path("asset", AssetView.as_view()),
     path("asset/category", UsageCategoryView.as_view()),
     path("lend", LendView.as_view()),
