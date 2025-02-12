@@ -11,6 +11,11 @@ class UserSelfView(APIView):
   authentication_classes = [CookieTokenBackend]
   permission_classes = [IsAuthenticated]
   
+  def get(self, request):
+    res = {}
+    res = dict({'success': True}, **request.user.encode())
+    return Response(res, status=status.HTTP_200_OK)
+  
   def delete(self, request):
     user = request.user
     user.is_active = False
