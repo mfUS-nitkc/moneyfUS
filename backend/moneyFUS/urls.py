@@ -19,8 +19,8 @@ urlpatterns = [
     path("notify/<str:notify_id>", NotifyReadView.as_view()),
     path("asset", AssetView.as_view()),
     path("asset/category", UsageCategoryView.as_view()),
-    path("lend", LendView.as_view()),
-    path("borrowed", BorrowedView.as_view()),
-    path("lend/checkout/<str:loan_id>", LoanCheckoutView.as_view()),
+    path("loan/lend", LendView.as_view()),
+    path("loan/borrowed", BorrowedView.as_view()),
+    path("loan/checkout/<str:loan_id>", LoanCheckoutView.as_view()),
     path("loan/remind/<str:loan_id>", LoanRemindView.as_view())
 ]
