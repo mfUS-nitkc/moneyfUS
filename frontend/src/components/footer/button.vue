@@ -12,7 +12,7 @@
   >
     <v-row>
       <v-col class="text-center pa-0">
-        <v-icon class="icon" size="calc(2rem + ((1vw - 0.01px) * 4.1283))">{{
+        <v-icon class="icon" size="calc(2rem + ((1vw - 0.01px) * 1.6283))">{{
           icon
         }}</v-icon>
         <div class="text"><slot /></div>
