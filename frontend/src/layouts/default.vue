@@ -1,7 +1,12 @@
 <template>
-  <div>
-    <NuxtRouteAnnouncer />
-    <NuxtWelcome />
-    <slot />
-  </div>
+  <NuxtRouteAnnouncer />
+  <v-layout>
+    <Navbar />
+    <v-main>
+      <v-container fluid>
+        <slot />
+      </v-container>
+    </v-main>
+    <Footer />
+  </v-layout>
 </template>
