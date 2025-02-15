@@ -24,7 +24,7 @@ const menus = [
   },{
     name: '家計簿',
     icon: 'mdi-notebook-edit-outline',
-    link: '/kake',
+    link: '/asset',
   },{
     name: '収支入力',
     icon: 'mdi-piggy-bank-outline',
