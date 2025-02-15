@@ -4,7 +4,7 @@
     <v-container class="pa-1">
       <v-row justify="center" style="flex-wrap:nowrap;" class="ma-0">
         <v-col class="pa-2" v-for="menu in menus" :key="menu.name" style="aspect-ratio: 1; display: flex; align-items: center; " cols="3">
-          <FooterButton :icon="menu.icon" :to="menu.link" :isSelected="isSelectedBtn(menu.link)">
+          <FooterButton :icon="menu.icon" :link="menu.link">
             {{ menu.name }}
           </FooterButton>
         </v-col>
@@ -14,12 +14,6 @@
 </template>
 
 <script setup lang="ts">
-const route = useRoute()
-const currentPath = route.fullPath
-
-const isSelectedBtn = (linkPath: string) => {
-  return linkPath === currentPath
-}
 
 // FIXME: 実際のデータへ変更する
 const menus = [
