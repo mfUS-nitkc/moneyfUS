@@ -65,7 +65,7 @@
           >
         </v-list-item>
         <v-divider></v-divider>
-        <v-list-item @click="logout">
+        <v-list-item>
           <template v-slot:prepend>
             <v-icon>mdi-account-circle</v-icon>
           </template>
@@ -93,7 +93,7 @@
           >
         </v-list-item>
         <v-divider></v-divider>
-        <v-list-item>
+        <v-list-item @click="logout">
           <template v-slot:prepend>
             <v-icon>mdi-account-off</v-icon>
           </template>
@@ -108,6 +108,14 @@
 
 <script lang="ts" setup>
 const isDrawerOpen = ref(false);
+const userStore = useUserStore();
+
+const logout = async () => {
+  await userStore.logout()
+  if (!userStore.isAuthenticated) {
+    useRouter().push("/login")
+  }
+}
 </script>
 
 <style>
