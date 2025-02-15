@@ -1,6 +1,6 @@
 <template>
   <v-col cols="12">
-    <v-btn :style="buttonStyle" block height="80" @click="handleClick" class="common-button">
+    <v-btn :style="buttonStyle" block height="80" @click="handleClick" class="common-button" :to="link" nuxt>
       <!-- アイコン部分 -->
       <v-icon size="40" class="button-icon" :style="{color: textColor}">{{ icon }}</v-icon>
       <!-- テキスト部分 -->
@@ -17,11 +17,13 @@ import { defineProps, defineEmits, computed } from 'vue'
  * - icon: ボタン左側に表示するアイコン名  
  * - text: ボタンに表示するテキスト  
  * - color: ボタンの背景色（例: '#673AB7' や 'blue'）  
+ * - link: ボタンのリンク
  */
 const props = defineProps<{
   icon: string
   text: string
   color: string
+  link?: string
 }>()
 
 /**

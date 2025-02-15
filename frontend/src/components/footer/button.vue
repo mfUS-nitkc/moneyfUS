@@ -35,7 +35,7 @@ const props = defineProps({
 const btnClass = computed(() => {
   const classNameAry = ["btn"];
   console.log(props.link)
-  if (props.link === useRoute().fullPath) {
+  if (props.link?.split("/")[1] === useRoute().fullPath.split("/")[1]) {
     classNameAry.push("selected");
   }
   return classNameAry.join(" ");
