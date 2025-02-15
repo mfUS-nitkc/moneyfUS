@@ -16,26 +16,35 @@ export const useUserStore = defineStore('user', () => {
 
   async function fetchUser() {
     try {
-      const response = await fetch(`${apiBaseUrl}/user/self`);
-      if (!response.ok) throw new Error('Failed to fetch user');
-      const data: User = await response.json();
-      setUser(data);
+      const { data, error } = await useFetch<User>(`${apiBaseUrl}/user/self`, {
+        credentials: 'include'
+      });
+    
+      if (error.value) {
+        throw new Error('Failed to fetch user');
+      }
+    
+      setUser(data.value!);
     } catch (error) {
       console.error(error);
       clearUser();
     }
   }
 
-  async function login({email, password}: UserLoginRequest) {
+  async function login(request: UserLoginRequest) {
     try {
-      const response = await fetch(`${apiBaseUrl}/user/login`, {
+      const { data, error } = await useFetch<User>(`${apiBaseUrl}/user/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify(request),
+        credentials: 'include'
       });
-      if (!response.ok) throw new Error('Login failed');
-      const data: User = await response.json();
-      setUser(data);
+    
+      if (error.value) {
+        throw new Error('Login failed');
+      }
+    
+      setUser(data.value!);
     } catch (error) {
       console.error(error);
       clearUser();
@@ -44,32 +53,38 @@ export const useUserStore = defineStore('user', () => {
 
   async function logout() {
     try {
-      const response = await fetch(`${apiBaseUrl}/user/logout`, {
+      const { error } = await useFetch(`${apiBaseUrl}/user/logout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include'
       });
-      if (!response.ok) throw new Error('Login failed');
-      const data: User = await response.json();
-      setUser(data);
+
+      if (error.value) throw new Error('Logout failed');
+      clearUser()
     } catch (error) {
       console.error(error);
-      clearUser();
     }
   }
 
-  async function register({email, password, username}: UserRegisterRequest) {
+  async function register(request: UserRegisterRequest) {
     try {
-      const response = await fetch(`${apiBaseUrl}/user`, {
+      const { error } = await useFetch(`${apiBaseUrl}/user`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, username })
+        body: JSON.stringify(request),
+        credentials: 'include'
       });
-      if (!response.ok) throw new Error('Login failed');
-      return true
+    
+      if (error.value) {
+        throw new Error('Login failed');
+      }
+    
+      return true;
     } catch (error) {
       console.error(error);
-      return false
+      return false;
     }
+    
   }
 
   function setUser(newUser: User) {
