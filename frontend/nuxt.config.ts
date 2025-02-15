@@ -30,7 +30,7 @@ export default defineNuxtConfig({
     },
     server: {
       watch: {
-        usePalling: true
+        usePolling: true
       }
     }
   }
