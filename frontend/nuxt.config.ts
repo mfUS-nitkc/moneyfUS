@@ -16,7 +16,9 @@ export default defineNuxtConfig({
       config.plugins.push(vuetify({autoImport: true}))
     })
   },
-  () => { process.env.NODE_ENV === 'DEVELOP' ? "@nuxtjs/storybook" : ''}],
+  '@pinia/nuxt',
+  () => { process.env.NODE_ENV === 'DEVELOP' ? "@nuxtjs/storybook" : ''},
+],
   build: {
     transpile: ['vuetify'],
   },
