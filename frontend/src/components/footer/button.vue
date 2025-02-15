@@ -22,14 +22,10 @@
 </template>
 
 <script setup lang="ts">
-const { isSelected } = defineProps({
+const props = defineProps({
   icon: {
     type: String,
     required: true,
-  },
-  isSelected: {
-    type: Boolean,
-    default: false,
   },
   link: {
     type: String,
@@ -38,7 +34,8 @@ const { isSelected } = defineProps({
 
 const btnClass = computed(() => {
   const classNameAry = ["btn"];
-  if (isSelected) {
+  console.log(props.link)
+  if (props.link === useRoute().fullPath) {
     classNameAry.push("selected");
   }
   return classNameAry.join(" ");

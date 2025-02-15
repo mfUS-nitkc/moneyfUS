@@ -6,6 +6,7 @@
     v-model="internalValue"
     :rules="rules"
     outlined
+    :type="password ? 'password':''"
     ></v-text-field>
   </div>
 </template>
@@ -17,6 +18,7 @@ const props = defineProps<{
   label?: string
   value: string | number
   rules?: Array<(value: any) => boolean | string>
+  password?: Boolean
 }>()
 
 const emit = defineEmits<{
