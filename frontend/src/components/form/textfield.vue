@@ -1,34 +1,24 @@
 <template>
-  <div>
-    <div>{{ label }}</div>
+  <form-input-element :label="label">
     <v-text-field
     :label="label"
-    v-model="internalValue"
+    v-model="value"
     :rules="rules"
     outlined
-    :type="password ? 'password':''"
+    :type="type || ''"
+    bg-color="white"
     ></v-text-field>
-  </div>
+  </form-input-element>
 </template>
 
 <script lang="ts" setup>
 import { computed, defineProps, defineEmits } from 'vue'
-
+const value = defineModel()
 const props = defineProps<{
   label?: string
-  value: string | number
   rules?: Array<(value: any) => boolean | string>
-  password?: Boolean
+  type?: string
 }>()
-
-const emit = defineEmits<{
-  (e: 'update:value', value: string | number): void
-}>()
-
-const internalValue = computed({
-  get: () => props.value,
-  set: (value: string | number) => emit('update:value', value)
-})
 </script>
 
 <style scoped>

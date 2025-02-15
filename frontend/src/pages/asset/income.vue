@@ -29,6 +29,7 @@
         <v-row justify="end" class="mt-0">
           <v-col cols="auto" class="py-0 d-flex justify-end">
             <v-btn height="1.2rem" >登録</v-btn>
+            <!-- TODO: Replace me with miniButton -->
           </v-col>
         </v-row>
         <v-row>

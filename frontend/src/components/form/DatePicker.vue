@@ -1,25 +1,27 @@
 <template>
+  <FormInputElement :label="label">
     <v-menu v-model="menu" :close-on-content-click="false" transition="scale-transition" offset-y min-width="auto">
       <template v-slot:activator="{ props }">
         <v-text-field
-          v-bind="props"
-          :model-value="formattedDate"
-          label="日付を選択"
-          readonly
-          prepend-inner-icon="mdi-calendar"
-          bg-color="white"
+        v-bind="props"
+        :model-value="formattedDate"
+        label="日付を選択"
+        readonly
+        prepend-inner-icon="mdi-calendar"
+        bg-color="white"
         ></v-text-field>
       </template>
       <v-date-picker
-        v-model="selectedDate"
-        @update:model-value="emitDate"
+      v-model="selectedDate"
+      @update:model-value="emitDate"
       ></v-date-picker>
     </v-menu>
+  </FormInputElement>
 </template>
 
 <script setup lang="ts">
 // 親コンポーネントから受け取る日付
-const props = defineProps<{ modelValue: Date | null }>();
+const props = defineProps<{ label?: string, modelValue: Date | null }>();
 
 // 親コンポーネントに値を渡す
 const emit = defineEmits<{ (event: 'update:modelValue', value: Date | null): void }>();
