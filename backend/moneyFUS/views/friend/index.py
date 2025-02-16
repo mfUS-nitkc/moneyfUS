@@ -8,6 +8,7 @@ from django.db.models import Q
 from ...selializers.friend.friend import FriendSerializer
 from ...models.friend.friend import Friend
 from ...models.user.user import User
+from ...selializers.user.user_serializer import UserSerializer
 from ...backends.user.cookie_authentication import CookieTokenBackend
 
 class FriendView(APIView):
@@ -27,8 +28,9 @@ class FriendView(APIView):
     return friend_ids
   
   def get(self, request):
-    friends = self.get_friends_id(request.user)
-    return Response(dict({"success": True},**{'friend_ids': friends}), status=status.HTTP_200_OK)
+    friend_ids = self.get_friends_id(request.user)
+    friends = [UserSerializer(User.objects.get(user_id=friend_id)).data for friend_id in friend_ids]
+    return Response(dict({"success": True},**{'friends': friends}), status=status.HTTP_200_OK)
   
   def post(self, request):
     add_user_id = request.data.get("user_id")
