@@ -1,11 +1,4 @@
-export type BaseResponse = {
-  success: true
-}
-
-export type ErrorResponse =  {
-  success: false
-  detail: string
-}
+import type { BaseResponse } from "./base"
 
 export type UserId = string | null
 export type Username = string

@@ -14,7 +14,7 @@ const elements = [
     "icon": "mdi-keyboard-outline",
     "text": "手動で入力",
     "color": "#78AEB1",
-    "link": "/asset/hand"
+    "link": "/asset/outgo"
   },
   {
     "icon": "mdi-cash-multiple",

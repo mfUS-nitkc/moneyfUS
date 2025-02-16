@@ -15,10 +15,10 @@
       />
     </svg></div>
     <v-form v-if="!isRegistered" class="my-5" ref="form" @submit.prevent="register">
-      <form-textfield label="メールアドレス（ログインID）" :rules="[emailRule]" :value="email" @update:value="(v) => email = String(v)"></form-textfield>
-      <form-textfield label="パスワード" :rules="[requiredRule]" :password="true" :value="password" @update:value="(v) => password = String(v)"></form-textfield>
-      <form-textfield label="パスワード（確認）" :rules="[requiredRule]" :password="true" :value="rePassword" @update:value="(v) => rePassword = String(v)"></form-textfield>
-      <form-textfield label="ニックネーム" :rules="[requiredRule]" :value="nickname" @update:value="(v) => nickname = String(v)"></form-textfield>
+      <form-textfield label="メールアドレス（ログインID）" :rules="[emailRule]" v-model="email"></form-textfield>
+      <form-textfield label="パスワード" :rules="[requiredRule]" type="password" v-model="password"></form-textfield>
+      <form-textfield label="パスワード（確認）" :rules="[requiredRule]" type="password" v-model="rePassword"></form-textfield>
+      <form-textfield label="ニックネーム" :rules="[requiredRule]" v-model="nickname"></form-textfield>
       <v-row justify="center">
         <v-btn class="ma-10 px-10 bg-primary" text="登録" type="submit" :disable="isProgress" :loading="isProgress" />
       </v-row>
