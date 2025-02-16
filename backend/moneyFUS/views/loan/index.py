@@ -42,17 +42,17 @@ class LoanCheckoutView(APIView):
     return Response(lend_serializer.data, status=status.HTTP_200_OK)
   
   def create_checkout_asset_log(self, lend: Loan):
-    checkout_lend_usage_category, _ = UsageCategory.objects.get_or_create(category_code='CHECKOUT_LEND', defaults={'category_name': '借り清算(返済)'})
-    checkout_borrowed_usage_category, _ = UsageCategory.objects.get_or_create(category_code='CHECKOUT_BORROWED', defaults={'category_name': '貸し清算(返済)'})
+    checkout_lend_usage_category, _ = UsageCategory.objects.get_or_create(usage_category_code='CHECKOUT_LEND', defaults={'usage_category_name': '借り清算(返済)'})
+    checkout_borrowed_usage_category, _ = UsageCategory.objects.get_or_create(usage_category_code='CHECKOUT_BORROWED', defaults={'usage_category_name': '貸し清算(返済)'})
     
     checkout_lend_asset_log = {
-      "usage_category": checkout_lend_usage_category.category_id,
+      "usage_category": checkout_lend_usage_category.usage_category_id,
       "amount": lend.amount,
       "issued_at": datetime.date.today(),
       "user": lend.lender.user_id
     }
     checkout_borrowed_asset_log = {
-      "usage_category": checkout_borrowed_usage_category.category_id,
+      "usage_category": checkout_borrowed_usage_category.usage_category_id,
       "amount": lend.amount,
       "issued_at": datetime.date.today(),
       "user": lend.borrower.user_id

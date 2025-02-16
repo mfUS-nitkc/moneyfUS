@@ -6,3 +6,5 @@ export type ErrorResponse =  {
   success: false
   detail: string
 }
+
+export type DateString = string;

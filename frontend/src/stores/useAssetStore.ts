@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { AssetPostRequest, AssetPostResponse, UsageCategory } from "../types";
+import type { PostAssetRequest, PostAssetResponse, UsageCategory, UsageCategoryResponse } from "../types";
 
 export const useAssetStore = defineStore('asset', () => {
   const usageCategories = ref<Array<UsageCategory>>([])
@@ -9,7 +9,7 @@ export const useAssetStore = defineStore('asset', () => {
 
   async function fetchUsageCategory() {
     try {
-      const { data, error } = await useFetch<UsageCategory[]>(`${apiBaseUrl}/asset/category`, {
+      const { data, error } = await useFetch<UsageCategoryResponse>(`${apiBaseUrl}/asset/category`, {
         credentials: 'include'
       });
     
@@ -17,16 +17,16 @@ export const useAssetStore = defineStore('asset', () => {
         throw new Error('Failed to fetch categories');
       }
     
-      setUsageCategories(data.value!);
+      setUsageCategories(data.value!.items!);
     } catch (error) {
       console.error(error);
       clearUsageCategories();
     }
   }
 
-  async function postAsset(request: AssetPostRequest) {
+  async function postAsset(request: PostAssetRequest) {
     try {
-      const {error} = await useFetch<AssetPostResponse>(`${apiBaseUrl}/asset`, {
+      const {error} = await useFetch<PostAssetResponse>(`${apiBaseUrl}/asset`, {
         method: "POST",
         headers: { 'Content-Type': 'application/json'},
         body: JSON.stringify(request),

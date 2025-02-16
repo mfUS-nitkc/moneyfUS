@@ -6,7 +6,7 @@
           <template v-slot:prepend>
             <v-icon icon="mdi-keyboard-outline"></v-icon>
           </template>
-          <v-card-title> 収入入力 </v-card-title>
+          <v-card-title> 手動で入力 </v-card-title>
         </v-card-item>
         <v-card-text>
           <v-form ref="form" @submit.prevent="submit">
@@ -17,7 +17,7 @@
                     :rules="[required]"
                     v-model="selectedCategory"
                     label="種類を選択"
-                    :items="usageCategory"
+                    :items="usageCategoryComputed"
                   ></form-select>
                 </v-col>
               </v-row>
@@ -27,7 +27,8 @@
                     :rules="[aboveZero]"
                     label="金額を入力"
                     v-model="inputAmount"
-                    type="number"
+                    type="string"
+                    suffix="円"
                   ></form-textfield>
                 </v-col>
               </v-row>
@@ -50,7 +51,7 @@
   </v-container>
 </template>
 <script setup lang="ts">
-import type { AssetPostRequestById } from "@/types";
+import type { PostAssetRequestById, UsageCategory } from "@/types";
 import type { VForm } from "vuetify/components";
 const assetStore = useAssetStore();
 
@@ -63,7 +64,7 @@ const submit = async () => {
   if (!form.value?.isValid) return;
   isProgress.value = true;
 
-  const newRequest: AssetPostRequestById = {
+  const newRequest: PostAssetRequestById = {
     issued_at: new Date()
       .toLocaleDateString("ja-JP", {
         year: "numeric",
@@ -73,7 +74,7 @@ const submit = async () => {
       .split("/")
       .join("-"),
     usage_category_id: selectedCategory.value.value,
-    amount: inputAmount.value,
+    amount: inputAmount.value!,
   };
   await assetStore.postAsset(newRequest).then((result) => {
     if (result) form.value?.reset();
@@ -81,12 +82,21 @@ const submit = async () => {
   });
 };
 
+const usageCategoryComputed = computed(() => {
+  return usageCategory.value.map((usageCategory) => {
+    return {title: usageCategory.usage_category_name,
+    value: usageCategory.usage_category_id}
+  })
+})
+
+onMounted(async() => {
+  await assetStore.fetchUsageCategory();
+  usageCategory.value = assetStore.usageCategories
+  console.log(usageCategory)
+})
+
 const form = ref<InstanceType<typeof VForm> | null>(null);
-const usageCategory = ref([
-  { title: "Title 1", value: "Value 1" },
-  { title: "Title 2", value: "Value 2" },
-  { title: "Title 3", value: "Value 3" },
-]);
+const usageCategory = ref<UsageCategory[]>([]);
 const selectedCategory = ref();
 const inputAmount = ref<number>();
 </script>

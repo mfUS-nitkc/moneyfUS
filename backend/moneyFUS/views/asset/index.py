@@ -22,11 +22,11 @@ class AssetView(APIView):
         usage_category_code = request.data.get("usage_category_code")
         
         if not usage_category_id and usage_category_code:
-            usage_category = UsageCategory.objects.get(category_code = usage_category_code)
+            usage_category = UsageCategory.objects.get(usage_category_code = usage_category_code)
             if not usage_category:
                 error_res = create_error_response("Invalid category_code", status=status.HTTP_400_BAD_REQUEST)
                 return error_res
-            usage_category_id = usage_category.category_id
+            usage_category_id = usage_category.usage_category_id
             
         if not usage_category_id:
             error_res = create_error_response("usage_category_id or usage_category_code is required.", status=status.HTTP_400_BAD_REQUEST)

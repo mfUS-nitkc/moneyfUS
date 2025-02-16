@@ -20,7 +20,7 @@ const elements = [
     "icon": "mdi-cash-multiple",
     "text": "割り勘・貸し借り",
     "color": "#83B178",
-    "link": "/asset/lend"
+    "link": "/asset/loan"
   }
 ]
 </script>

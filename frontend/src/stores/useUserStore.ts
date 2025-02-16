@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { User, UserLoginRequest, UserRegisterRequest } from "../types";
+import type { GetFriendListResponse, User, UserLoginRequest, UserRegisterRequest } from "../types";
 
 const initUser: User = {
   user_id: null,
@@ -10,6 +10,7 @@ const initUser: User = {
 export const useUserStore = defineStore('user', () => {
   const user = ref<User>(initUser);
   const isAuthenticated = computed(() => !!user.value.user_id)
+  const friendList = ref<User[]>([])
 
   const config = useRuntimeConfig();
   const apiBaseUrl = config.public.apiBaseUrl;
@@ -25,6 +26,23 @@ export const useUserStore = defineStore('user', () => {
       }
     
       setUser(data.value!);
+    } catch (error) {
+      console.error(error);
+      clearUser();
+    }
+  }
+
+  async function fetchFriendList() {
+    try {
+      const { data, error } = await useFetch<GetFriendListResponse>(`${apiBaseUrl}/friend`, {
+        credentials: 'include'
+      });
+    
+      if (error.value) {
+        throw new Error('Failed to fetch user');
+      }
+    
+      setFriendList(data.value?.friends!);
     } catch (error) {
       console.error(error);
       clearUser();
@@ -87,6 +105,10 @@ export const useUserStore = defineStore('user', () => {
     
   }
 
+  function setFriendList(newFriendList: Array<User>) {
+    friendList.value = newFriendList;
+  }
+
   function setUser(newUser: User) {
     user.value = newUser;
   }
@@ -97,8 +119,10 @@ export const useUserStore = defineStore('user', () => {
 
   return {
     user,
+    friendList,
     isAuthenticated,
     fetchUser,
+    fetchFriendList,
     login,
     logout,
     register

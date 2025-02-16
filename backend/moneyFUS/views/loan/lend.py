@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from ...selializers.loan.loan import LoanSerializer
 from ...models.loan.loan import Loan
+from ...utils.Response import create_response
 from ...backends.user.cookie_authentication import CookieTokenBackend
 
 class LendView(APIView):
@@ -14,7 +15,8 @@ class LendView(APIView):
   def get(self, request):
     lends = Loan.objects.filter(lender=request.user)  # ユーザーが貸し手になっている貸し借りログ
     serializer = LoanSerializer(lends, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    response = create_response({'items': serializer.data}, status=status.HTTP_200_OK)
+    return response
   
   def post(self, request):
     req =  {}

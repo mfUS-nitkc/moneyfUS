@@ -23,7 +23,7 @@
         </v-row>
         <v-row>
           <v-col class="py-0">
-            <v-text-field v-model="currentInputIncomeAmount" bg-color="white" type="number" label="収入を入力" />
+            <v-text-field v-model="currentInputIncomeAmount" suffix="円" bg-color="white" type="string" label="収入を入力" />
           </v-col>
         </v-row>
         <v-row justify="end" class="mt-0">
@@ -70,7 +70,7 @@
         <v-card-text>
           <v-row>
             <v-col>
-              <v-text-field v-model="currentInputBudgetAmount" bg-color="white" type="number" label="予算を入力" />
+              <v-text-field v-model="currentInputBudgetAmount" bg-color="white" type="string" suffix="円" label="予算を入力" />
             </v-col>
         </v-row>
         <v-row>

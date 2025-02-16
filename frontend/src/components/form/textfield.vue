@@ -4,7 +4,8 @@
     :label="label"
     v-model="value"
     :rules="rules"
-    outlined
+    variant="outlined"
+    :suffix="suffix"
     :type="type || ''"
     bg-color="white"
     ></v-text-field>
@@ -15,7 +16,8 @@
 import { computed, defineProps, defineEmits } from 'vue'
 const value = defineModel()
 const props = defineProps<{
-  label?: string
+  label?: string,
+  suffix?: string,
   rules?: Array<(value: any) => boolean | string>
   type?: string
 }>()

@@ -12,6 +12,7 @@ from .views.notify.index import NotifyView
 from .views.notify.read import NotifyReadView
 from .views.loan.remind import LoanRemindView
 from .views.friend.index import FriendView
+from .views.split.split import SplitView
 
 urlpatterns = [
     path("user", UserView.as_view()),
@@ -27,4 +28,5 @@ urlpatterns = [
     path("loan/checkout/<str:loan_id>", LoanCheckoutView.as_view()),
     path("loan/remind/<str:loan_id>", LoanRemindView.as_view()),
     path("friend", FriendView.as_view()),
+    path("split", SplitView.as_view()),
 ]

@@ -1,6 +1,6 @@
 <template>
   <FormInputElement :label="label">
-    <v-select :rules="rules" :label="label" bg-color="white" v-model="selected" :items="items" return-object></v-select>
+    <v-select varianTt="outlined" :rules="rules" :label="label" bg-color="white" v-model="selected" :items="items" return-object></v-select>
   </FormInputElement>
 </template>
 <script setup lang="ts">

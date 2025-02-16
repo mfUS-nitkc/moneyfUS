@@ -7,6 +7,7 @@
         :model-value="formattedDate"
         label="日付を選択"
         readonly
+        variant="outlined"
         prepend-inner-icon="mdi-calendar"
         bg-color="white"
         ></v-text-field>

@@ -1,17 +1,17 @@
 <template>
   <v-col cols="12">
-    <v-btn :style="buttonStyle" block height="80" @click="handleClick" class="common-button" :to="link" nuxt>
+    <v-btn :style="buttonStyle" block height="80" @click="handleClick" class="common-button" :class="!icon && 'd-flex justify-center'" :to="link" nuxt>
       <!-- アイコン部分 -->
-      <v-icon size="40" class="button-icon" :style="{color: textColor}">{{ icon }}</v-icon>
+      <div v-if="icon">
+        <v-icon size="40" class="button-icon" :style="{color: textColor}">{{ icon }}</v-icon>
+      </div>
       <!-- テキスト部分 -->
-      <span class="button-text" :style="{color: textColor}">{{ text }}</span>
+      <span class="button-text" :style="{color: textColor, fontSize: !icon && '1.5rem'}">{{ text }}</span>
     </v-btn>
   </v-col>
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits, computed } from 'vue'
-
 /**
  * Props定義  
  * - icon: ボタン左側に表示するアイコン名  
@@ -20,7 +20,7 @@ import { defineProps, defineEmits, computed } from 'vue'
  * - link: ボタンのリンク
  */
 const props = defineProps<{
-  icon: string
+  icon?: string
   text: string
   color: string
   link?: string
