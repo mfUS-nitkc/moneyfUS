@@ -5,7 +5,7 @@ services:
       target: dev
     volumes:
       - ./frontend/:/app
-      - /app/node_modules
+      - node_modules:/app/node_modules
     ports:
       - 3000:3000
       - 6006:6006
@@ -35,3 +35,5 @@ services:
     depends_on:
       db:
         condition: service_healthy
+volumes:
+  node_modules:
