@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from ...models.asset.asset_log import AssetLog
 from ...models.asset.usage_category import UsageCategory
 from ...backends.user.cookie_authentication import CookieTokenBackend
-
+from ...utils.Response import create_response, create_error_response
 
 class AssetView(APIView):
     authentication_classes = [CookieTokenBackend]
@@ -18,10 +18,28 @@ class AssetView(APIView):
         req = request.data
         user = request.user
         req["user"] = user.user_id
+        usage_category_id = request.data.get("usage_category_id")
+        usage_category_code = request.data.get("usage_category_code")
+        
+        if not usage_category_id and usage_category_code:
+            usage_category = UsageCategory.objects.get(category_code = usage_category_code)
+            if not usage_category:
+                error_res = create_error_response("Invalid category_code", status=status.HTTP_400_BAD_REQUEST)
+                return error_res
+            usage_category_id = usage_category.category_id
+            
+        if not usage_category_id:
+            error_res = create_error_response("usage_category_id or usage_category_code is required.", status=status.HTTP_400_BAD_REQUEST)
+            return error_res
+        
+        req["usage_category"] = usage_category_id
+
         serializer = AssetLogSerializer(data=req)
+        
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            create_data = serializer.save()
+            response = create_response({'asset_id': create_data.asset_id}, status=status.HTTP_201_CREATED)
+            return response
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request):

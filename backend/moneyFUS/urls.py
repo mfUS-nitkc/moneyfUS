@@ -1,6 +1,7 @@
 from django.urls import path
 from .views.user.index import UserView
 from .views.user.login import LoginView
+from .views.user.logout import LogoutView
 from .views.user.self import UserSelfView
 from .views.asset.index import AssetView
 from .views.asset.category import UsageCategoryView
@@ -13,8 +14,9 @@ from .views.loan.remind import LoanRemindView
 from .views.friend.index import FriendView
 
 urlpatterns = [
-    path("user/login", LoginView.as_view()),
     path("user", UserView.as_view()),
+    path("user/login", LoginView.as_view()),
+    path("user/logout", LogoutView.as_view()),
     path("user/self", UserSelfView.as_view()),
     path("notify", NotifyView.as_view()),
     path("notify/<str:notify_id>", NotifyReadView.as_view()),
