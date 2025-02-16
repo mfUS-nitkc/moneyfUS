@@ -32,7 +32,7 @@ class AssetView(APIView):
             error_res = create_error_response("usage_category_id or usage_category_code is required.", status=status.HTTP_400_BAD_REQUEST)
             return error_res
         
-        req["category_id"] = usage_category_id
+        req["usage_category"] = usage_category_id
 
         serializer = AssetLogSerializer(data=req)
         
