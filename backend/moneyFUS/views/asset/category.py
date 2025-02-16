@@ -1,4 +1,4 @@
-from ...selializers.asset.usage_category_serializer import UsageCategorySerializer
+from ...serializers.asset.usage_category_serializer import UsageCategorySerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status

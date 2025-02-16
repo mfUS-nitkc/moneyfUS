@@ -5,8 +5,8 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
 from ...models.asset.usage_category import UsageCategory
-from ...selializers.loan.loan import LoanSerializer
-from ...selializers.asset.asset_log_serializer import AssetLogSerializer
+from ...serializers.loan.loan import LoanSerializer
+from ...serializers.asset.asset_log_serializer import AssetLogSerializer
 from ...models.loan.loan import Loan
 from ...backends.user.cookie_authentication import CookieTokenBackend
 

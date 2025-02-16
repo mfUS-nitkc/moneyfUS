@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from ...models.loan.loan import Loan
-from ...selializers.user.user_serializer import UserSerializer
+from ...serializers.user.user_serializer import UserSerializer
 
 class LoanSerializer(serializers.ModelSerializer):
   class Meta:

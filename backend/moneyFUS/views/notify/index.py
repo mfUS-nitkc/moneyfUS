@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from ...backends.user.cookie_authentication import CookieTokenBackend
 from ...models.notify.notify import Notify
-from ...selializers.notify.notify_serializer import NotifySerializer
+from ...serializers.notify.notify_serializer import NotifySerializer
 
 class NotifyView(APIView):
   authentication_classes = [CookieTokenBackend]

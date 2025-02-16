@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
-from ...selializers.loan.loan import LoanSerializer
+from ...serializers.loan.loan import LoanSerializer
 from ...models.loan.loan import Loan
 from ...utils.Response import create_response
 from ...backends.user.cookie_authentication import CookieTokenBackend

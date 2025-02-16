@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 from django.forms import ValidationError
-from ...selializers.asset.asset_log_serializer import AssetLogSerializer
+from ...serializers.asset.asset_log_serializer import AssetLogSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status

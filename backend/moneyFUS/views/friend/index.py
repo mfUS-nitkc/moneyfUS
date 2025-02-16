@@ -5,10 +5,10 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
 
-from ...selializers.friend.friend import FriendSerializer
+from ...serializers.friend.friend import FriendSerializer
 from ...models.friend.friend import Friend
 from ...models.user.user import User
-from ...selializers.user.user_serializer import UserSerializer
+from ...serializers.user.user_serializer import UserSerializer
 from ...backends.user.cookie_authentication import CookieTokenBackend
 
 class FriendView(APIView):

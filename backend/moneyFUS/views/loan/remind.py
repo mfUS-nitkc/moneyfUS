@@ -5,9 +5,9 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
 from ...models.notify.notify import Notify
-from ...selializers.notify.notify_serializer import NotifySerializer
-from ...selializers.loan.loan import LoanSerializer
-from ...selializers.asset.asset_log_serializer import AssetLogSerializer
+from ...serializers.notify.notify_serializer import NotifySerializer
+from ...serializers.loan.loan import LoanSerializer
+from ...serializers.asset.asset_log_serializer import AssetLogSerializer
 from ...models.loan.loan import Loan
 from ...backends.user.cookie_authentication import CookieTokenBackend
 

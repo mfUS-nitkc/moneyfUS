@@ -7,7 +7,7 @@ from ...backends.user.cookie_authentication import CookieTokenBackend
 from ...models.split.split import Split, SplitDetail
 from ...models.loan.loan import Loan
 from ...models.user.user import User
-from ...selializers.split.split_serializer import SplitSerializer
+from ...serializers.split.split_serializer import SplitSerializer
 from ...utils.Response import create_error_response, create_response
 
 from django.db import transaction
