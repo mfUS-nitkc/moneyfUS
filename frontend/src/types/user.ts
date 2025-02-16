@@ -23,3 +23,9 @@ export type UserRegisterRequest = {
   password: Password,
   username: Username
 }
+
+export type Notify = {
+  notify_id: string,
+  content: string,
+  read: boolean
+}

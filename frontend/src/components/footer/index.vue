@@ -24,15 +24,15 @@ const menus = [
   },{
     name: '家計簿',
     icon: 'mdi-notebook-edit-outline',
-    link: '/asset',
+    link: '/log',
   },{
     name: '収支入力',
     icon: 'mdi-piggy-bank-outline',
-    link: '/shu',
+    link: '/asset',
   },{
     name: '投稿',
     icon: 'mdi-account-group-outline',
-    link: '/post',
+    link: '#',
   },
 ]
 </script>

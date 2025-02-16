@@ -1,6 +1,6 @@
 <template>
   <LoanBasefield tag="借りる" :btn="{label: '新規', to: '/asset/loan/borrowed/choice'}">
-    <LoanLoanlist :is-lender-view="false" :loans="borrowedLoans" @select="selectLoan" title="現在の借り状況"></LoanLoanlist>
+    <LoanLoanlist :is-lender-view="false" :loans="unpaidBorrowedLoans" @select="selectLoan" title="現在の借り状況"></LoanLoanlist>
   </LoanBasefield>
 </template>
 <script setup lang="ts">
@@ -13,6 +13,12 @@ onMounted(async () => {
   const result = await loanStore.getBorrowedList()
   if (result) borrowedLoans.value = loanStore.borrowedLoanList
   console.log(result, borrowedLoans.value)
+})
+
+const unpaidBorrowedLoans = computed(() => {
+  return borrowedLoans.value.filter((loan) => {
+    return !loan.is_paid
+  })
 })
 
 const selectLoan = (id: LoanId, loan: Loan) => {

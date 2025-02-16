@@ -1,6 +1,6 @@
 <template>
   <LoanBasefield tag="貸す" :btn="{label: '新規', to: '/asset/loan/lend/choice'}">
-    <LoanLoanlist :is-lender-view="true" :loans="lendLoans" @select="selectLoan" title="現在の貸し状況"></LoanLoanlist>
+    <LoanLoanlist :is-lender-view="true" :loans="unpaidLendLoans" @select="selectLoan" title="現在の貸し状況"></LoanLoanlist>
     <v-dialog v-model="isDialogOpen">
       <v-card>
         <v-card-title>
@@ -34,6 +34,12 @@ onMounted(async () => {
   const result = await loanStore.getLendList()
   if (result) lendLoans.value = loanStore.lendLoanList
   console.log(result, lendLoans.value)
+})
+
+const unpaidLendLoans = computed(() => {
+  return lendLoans.value.filter((loan) => {
+    return !loan.is_paid
+  })
 })
 
 const checkoutLoan = async () => {

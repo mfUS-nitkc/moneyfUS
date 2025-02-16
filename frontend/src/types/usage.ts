@@ -26,6 +26,6 @@ export type PostAssetRequestByName = {
   usage_category_name: string;
 } & PostAssetRequestBase;
 
-export type AssetPostRequest =
+export type PostAssetRequest =
   | PostAssetRequestById
   | PostAssetRequestByName;

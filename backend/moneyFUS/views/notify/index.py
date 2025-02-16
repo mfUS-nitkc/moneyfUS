@@ -12,6 +12,6 @@ class NotifyView(APIView):
   permission_classes = [IsAuthenticated]
   
   def get(self, request):
-    notifies = Notify.objects.filter(user_id=request.user, is_read=False) 
+    notifies = Notify.objects.all().filter(user_id=request.user.user_id, is_read=False) 
     serializer = NotifySerializer(notifies, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)

@@ -1,8 +1,9 @@
 import { defineStore } from "pinia";
-import type { PostAssetRequest, PostAssetResponse, UsageCategory, UsageCategoryResponse } from "../types";
+import type { AssetLog, AssetLogResponse, PostAssetRequest, PostAssetResponse, UsageCategory, UsageCategoryResponse } from "../types";
 
 export const useAssetStore = defineStore('asset', () => {
   const usageCategories = ref<Array<UsageCategory>>([])
+  const assetLogs = ref<Array<AssetLog>>([])
 
   const config = useRuntimeConfig();
   const apiBaseUrl = config.public.apiBaseUrl;
@@ -21,6 +22,23 @@ export const useAssetStore = defineStore('asset', () => {
     } catch (error) {
       console.error(error);
       clearUsageCategories();
+    }
+  }
+
+  async function fetchAssetLogs() {
+    try {
+      const { data, error } = await useFetch<AssetLogResponse>(`${apiBaseUrl}/asset`, {
+        credentials: 'include'
+      });
+    
+      if (error.value) {
+        throw new Error('Failed to fetch categories');
+      }
+    
+      setAssetLogs(data.value?.assets!);
+    } catch (error) {
+      console.error(error);
+      clearAssetLogs();
     }
   }
 
@@ -49,9 +67,19 @@ export const useAssetStore = defineStore('asset', () => {
     usageCategories.value = []
   }
 
+  function setAssetLogs(newAssets: Array<AssetLog>) {
+    assetLogs.value = newAssets
+  }
+
+  function clearAssetLogs() {
+    assetLogs.value = []
+  }
+
   return {
+    assetLogs,
     usageCategories,
     fetchUsageCategory,
+    fetchAssetLogs,
     postAsset,
   }
 })

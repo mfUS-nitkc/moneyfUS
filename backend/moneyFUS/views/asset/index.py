@@ -48,9 +48,9 @@ class AssetView(APIView):
             asset = get_object_or_404(AssetLog, pk=pk)
             serializer = AssetLogSerializer(asset)
         else:
-            queryset = AssetLog.objects.all().filter(user_id=request.user.user_id)
+            queryset = AssetLog.objects.all().filter(user_id=request.user.user_id).order_by('-created_at')
             serializer = AssetLogSerializer(queryset, many=True)
-        return Response(serializer.data)
+        return create_response({'assets': serializer.data}, status=status.HTTP_200_OK)
 
     def delete(self, request):
         pk = request.data.get("asset_id")
